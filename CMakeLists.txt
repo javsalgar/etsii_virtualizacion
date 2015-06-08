@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 2.8)
 include_directories(include)
 find_package(OpenCV REQUIRED)
 set(CMAKE_CXX_FLAGS "-std=c++0x")
+set(CMAKE_BUILD_TYPE Debug)
 
 # LagDetector Library
 
@@ -16,6 +17,12 @@ add_library(lagdetector SHARED ${SOURCES_LAGDETECTOR})
 
 # Executable file
 
-set(SOURCES_MAIN src/main.cpp include/lagdetector.h)
-add_executable(${PROJECT_NAME} ${SOURCES_MAIN})
-target_link_libraries(${PROJECT_NAME} lagdetector ${OpenCV_LIBS})
+set(SOURCES_ETSII_TEST
+    src/main.cpp
+    include/lagdetector.h
+    include/etsii_test.h
+    include/roi.h
+    include/laginfo.h)
+
+add_executable(etsii_test ${SOURCES_ETSII_TEST})
+target_link_libraries(etsii_test lagdetector ${OpenCV_LIBS})

@@ -56,6 +56,14 @@ namespace video_analyzer {
          */
         bool getLags(struct LagInfo& lag_info);
 
+        /**
+         * @brief compareTwoFrames checks if two frames are equal
+         * @param im1 First image
+         * @param im2 Second image
+         * @return true if the images are the same
+         */
+        bool compareTwoFrames(const cv::Mat& im1, const cv::Mat& im2);
+
     private:
 
         /**
