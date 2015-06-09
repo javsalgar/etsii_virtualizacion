@@ -26,10 +26,6 @@ cv::Mat FrameExtractor::extractFrame(int frame)
 
     *vc_ >> res;
 
-    cv::namedWindow("test");
-    cv::imshow("test", res);
-    cv::waitKey(0);
-
     return res;
 }
 

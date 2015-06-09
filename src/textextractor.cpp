@@ -24,10 +24,6 @@ bool TextExtractor::getText(const ROI roi, std::string& out_text)
         cv::Mat gray;
         cv::cvtColor(region_image, gray, CV_BGR2GRAY);
 
-        cv::namedWindow("test");
-        cv::imshow("test", gray);
-        cv::waitKey(0);
-
         api_->SetPageSegMode(tesseract::PSM_SINGLE_BLOCK);
         api_->SetImage((uchar*)gray.data, gray.cols, gray.rows, 1, gray.cols);
 
