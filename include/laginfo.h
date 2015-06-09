@@ -1,6 +1,8 @@
 #ifndef LAGINFO_H
 #define LAGINFO_H
 
+#include <iostream>
+
 namespace video_analyzer {
     /**
      * @brief The LagInfo struct stores the information
@@ -11,6 +13,9 @@ namespace video_analyzer {
       int num_lags;
       double max_lag;
       double avg_lag;
+      friend std::ostream& operator<<(std::ostream& stream, LagInfo a) {
+        stream << a.num_lags << "\t" << a.avg_lag << "\t" << a.max_lag;
+      }
     };
 }
 

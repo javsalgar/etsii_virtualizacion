@@ -58,9 +58,6 @@ bool LagDetector::compareTwoFrames(const cv::Mat &im1, const cv::Mat &im2)
 
 bool LagDetector::getLags(int begin_frame, int end_frame, const ROI &roi, LagInfo &lag_info)
 {
-    vc_->set(CV_CAP_PROP_POS_FRAMES, (double)begin_frame);
-    cv::Rect rect_roi(roi.x, roi.y, roi.width, roi.height);
-
     bool first_difference_found = false;
 
     int current_frame_number;
@@ -68,6 +65,9 @@ bool LagDetector::getLags(int begin_frame, int end_frame, const ROI &roi, LagInf
     int total_lag_duration = 0;
     int total_lags = 0;
     int max_lag_duration = INT32_MIN;
+
+    vc_->set(CV_CAP_PROP_POS_FRAMES, (double)begin_frame);
+    cv::Rect rect_roi(roi.x, roi.y, roi.width, roi.height);
 
     current_frame_number = vc_->get(CV_CAP_PROP_POS_FRAMES);
 
@@ -85,17 +85,6 @@ bool LagDetector::getLags(int begin_frame, int end_frame, const ROI &roi, LagInf
 
         if (compareTwoFrames(reg, previous_reg)) {
             if (first_difference_found) {
-
-                if (current_lag_duration > 20) {
-                    std::stringstream filename;
-                    filename << "/home/javsalgar/lags/" << "frame-" << current_frame_number << ".jpg";
-                    cv::imwrite(filename.str(), reg);
-
-                    std::stringstream filename2;
-                    filename2 << "/home/javsalgar/lags/" << "frame-" << (current_frame_number-1) << ".jpg";
-                    cv::imwrite(filename2.str(), previous_reg);
-                }
-
                 current_lag_duration++;
             }
         } else {
