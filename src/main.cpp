@@ -5,22 +5,26 @@
 #include "etsii_test.h"
 #include "frameextractor.h"
 #include "textextractor.h"
+#include "videofpsmeasurer.h"
 
 using namespace std;
 
 int main()
 {
-    video_analyzer::LagDetector l("/home/javsalgar/ejemplo.avi");
+    video_analyzer::LagDetector l("/home/javsalgar/Code/ejemplo.avi");
     video_analyzer::LagInfo res;
+    std::shared_ptr<cv::VideoCapture> ptr(new cv::VideoCapture("/home/javsalgar/Code/ejemplo.avi"));
 
-    //video_analyzer::FrameExtractor f("/home/javsalgar/ejemplo.avi");
-    video_analyzer::FrameExtractor f("/home/javsalgar/Documents/Dropbox/ETSII/Doctorado/Proy cloud vitualización etsii/Videos Test/AA144pText.mpg");
+    //video_analyzer::FrameExtractor f("/home/javsalgar/Documents/Dropbox/ETSII/Doctorado/Proy cloud vitualización etsii/Videos Test/AA144pText.mpg");
     //f.extractToFolder(0, 300, "/home/javsalgar/lags/");
 
-    cv::namedWindow("test");
-    cv::imshow("test", f.extractFrame(13));
-   // cv::imwrite("/home/javsalgar/manuela.jpg", f.extractFrame(etsii::test_4_frame));
-    cv::waitKey(0);
+    video_analyzer::VideoFPSMeasurer v_measure(ptr);
+
+    struct video_analyzer::FPSInfo fps_res;
+
+    v_measure.measureFPS(etsii::test_5_begin,
+                         etsii::test_5_end, fps_res,
+                         25, etsii::test_5_roi);
 
 //    l.getLags(etsii::test_1_init, etsii::test_1_end,
 //              etsii::test_1_roi, res);

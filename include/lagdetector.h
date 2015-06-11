@@ -4,6 +4,8 @@
 #include "opencv2/opencv.hpp"
 #include "laginfo.h"
 #include "roi.h"
+#include <memory>
+
 namespace video_analyzer {
     /**
      * @brief The LagDetector class. Created to detect lags in video streams
@@ -21,6 +23,12 @@ namespace video_analyzer {
          */
 
         LagDetector(const std::string& filename);
+
+        /**
+         * @brief LagDetector
+         * @param vc pointer to a cv::VideoCapture object
+         */
+        LagDetector(std::shared_ptr<cv::VideoCapture> vc);
 
         /**
          * @brief Analyzes lag information in the video
@@ -69,12 +77,13 @@ namespace video_analyzer {
         /**
          * @brief Pointer to OpenCV Video capturer
          */
-        cv::VideoCapture *vc_;
+        std::shared_ptr<cv::VideoCapture> vc_;
 
         /**
          * @brief Video's frames per second
          */
         double fps_;
+
     };
 }
 #endif // LAGDETECTOR_H

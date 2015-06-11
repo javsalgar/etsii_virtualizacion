@@ -1,7 +1,8 @@
 #ifndef FRAMEEXTRACTOR_H
 #define FRAMEEXTRACTOR_H
-
+#include <memory>
 #include "opencv2/opencv.hpp"
+#include "roi.h"
 namespace video_analyzer {
     /**
      * @brief The FrameExtractor class is responsible of extracting frames from a video
@@ -16,6 +17,12 @@ namespace video_analyzer {
          * @param filename
          */
         FrameExtractor(const std::string& filename);
+
+        /**
+         * @brief FrameExtractor
+         * @param vc
+         */
+        FrameExtractor(std::shared_ptr<cv::VideoCapture> vc);
 
         ~FrameExtractor();
 
@@ -42,12 +49,14 @@ namespace video_analyzer {
          */
         cv::Mat extractFrame(int frame);
 
+        cv::Mat extractFrame(int frame, const struct ROI& roi);
+
     private:
 
         /**
          * @brief Pointer to OpenCV Video capturer
          */
-        cv::VideoCapture *vc_;
+        std::shared_ptr<cv::VideoCapture> vc_;
     };
 }
 #endif // FRAMEEXTRACTOR_H

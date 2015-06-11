@@ -5,14 +5,18 @@ using namespace video_analyzer;
 
 LagDetector::~LagDetector()
 {
-    if (vc_ != NULL) {
-        delete vc_;
+}
+
+LagDetector::LagDetector(const std::string &filename): LagDetector(std::make_shared<cv::VideoCapture>(filename))
+{
+    if (vc_ == NULL) {
+        throw std::invalid_argument("Error opening video file");
     }
 }
 
-LagDetector::LagDetector(const std::string &filename)
+LagDetector::LagDetector(std::shared_ptr<cv::VideoCapture> vc)
 {
-    vc_ = new cv::VideoCapture(filename);
+    vc_ = vc;
 
     if (vc_ != NULL) {
         fps_ = vc_->get(CV_CAP_PROP_FPS);

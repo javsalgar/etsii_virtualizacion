@@ -36,6 +36,15 @@ set(SOURCES_FRAMEEXTRACTOR
 
 add_library(frameextractor SHARED ${SOURCES_FRAMEEXTRACTOR})
 
+# FPS Measure Library
+
+set(SOURCES_FPSMEASURER
+    src/videofpsmeasurer.cpp
+    include/videofpsmeasurer.h
+    include/fpsinfo.h)
+
+add_library(videofpsmeasurer SHARED ${SOURCES_FPSMEASURER})
+
 # Executable file
 
 set(SOURCES_ETSII_TEST
@@ -47,4 +56,4 @@ set(SOURCES_ETSII_TEST
 
 add_executable(etsii_test ${SOURCES_ETSII_TEST})
 
-target_link_libraries(etsii_test lagdetector frameextractor textextractor ${OpenCV_LIBS} tesseract)
+target_link_libraries(etsii_test lagdetector frameextractor textextractor videofpsmeasurer ${OpenCV_LIBS} tesseract)
