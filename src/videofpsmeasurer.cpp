@@ -43,8 +43,6 @@ bool VideoFPSMeasurer::measureFPS(int begin_frame, int end_frame, FPSInfo &fps_r
         std::stringstream i_str(fps_text);
         i_str >> video_frame_number;
 
-        std::cout << current_frame_number << ":\"" << fps_text << "\"" << std::endl;
-
         if (first) {
             first_frame = video_frame_number;
             first = false;
@@ -54,11 +52,15 @@ bool VideoFPSMeasurer::measureFPS(int begin_frame, int end_frame, FPSInfo &fps_r
                 missed_frames += aux;
             }
         }
+
+        previous_video_frame_number = video_frame_number;
+        current_frame_number++;
     }
 
     fps_res.missed_frames = missed_frames;
     fps_res.total_frames = video_frame_number - first_frame;
-    fps_res.fps = fps_res.total_frames/theoretical_fps;
+    fps_res.fps = ((double)theoretical_fps *
+                   (fps_res.total_frames - fps_res.missed_frames))/fps_res.total_frames;
 
     return res;
 }

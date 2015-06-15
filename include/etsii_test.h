@@ -23,6 +23,9 @@ const int test_5_begin = 44163;
 const int test_5_end = 55563;
 const struct video_analyzer::ROI test_5_roi(557, 563, 168, 34);
 
+
+const struct video_analyzer::ROI test_5_roi_2(49, 119, 73, 17);
+
 }
 
 #endif // ETSII_TEST_H

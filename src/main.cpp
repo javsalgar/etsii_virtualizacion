@@ -11,9 +11,10 @@ using namespace std;
 
 int main()
 {
-    video_analyzer::LagDetector l("/home/javsalgar/Code/ejemplo.avi");
+    video_analyzer::LagDetector l("/home/javsalgar/Code/AA144pText2.mpg");
     video_analyzer::LagInfo res;
-    std::shared_ptr<cv::VideoCapture> ptr(new cv::VideoCapture("/home/javsalgar/Code/ejemplo.avi"));
+
+    std::shared_ptr<cv::VideoCapture> ptr(new cv::VideoCapture("/home/javsalgar/Code/AA144pText2.mpg"));
 
     //video_analyzer::FrameExtractor f("/home/javsalgar/Documents/Dropbox/ETSII/Doctorado/Proy cloud vitualización etsii/Videos Test/AA144pText.mpg");
     //f.extractToFolder(0, 300, "/home/javsalgar/lags/");
@@ -22,9 +23,12 @@ int main()
 
     struct video_analyzer::FPSInfo fps_res;
 
-    v_measure.measureFPS(etsii::test_5_begin,
-                         etsii::test_5_end, fps_res,
-                         25, etsii::test_5_roi);
+    v_measure.measureFPS(1000,
+                         1100,
+                         fps_res, 25, etsii::test_5_roi_2);
+
+
+    std::cout << fps_res << std::endl;
 
 //    l.getLags(etsii::test_1_init, etsii::test_1_end,
 //              etsii::test_1_roi, res);
