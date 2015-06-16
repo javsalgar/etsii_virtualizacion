@@ -18,7 +18,7 @@ VideoFPSMeasurer::VideoFPSMeasurer(std::shared_ptr<cv::VideoCapture> vc)
     vc_ = vc;
 }
 
-bool VideoFPSMeasurer::measureFPS(int begin_frame, int end_frame, FPSInfo &fps_res, int theoretical_fps, const ROI &roi)
+bool VideoFPSMeasurer::measureFPS(int begin_frame, int end_frame, FPSInfo &fps_res, int theoretical_fps, const ROI &roi, int threshold)
 {
     int current_frame_number;
     int video_frame_number;
@@ -38,7 +38,7 @@ bool VideoFPSMeasurer::measureFPS(int begin_frame, int end_frame, FPSInfo &fps_r
         *vc_ >> image;
         TextExtractor t_ext(image);
 
-        t_ext.getText(roi, fps_text);
+        t_ext.getText(roi, fps_text, threshold);
 
         std::stringstream i_str(fps_text);
         i_str >> video_frame_number;

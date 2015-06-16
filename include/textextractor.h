@@ -24,7 +24,7 @@ namespace video_analyzer {
          * @param roi
          * @return
          */
-        bool getText(const struct ROI roi, std::string &out_text);
+        bool getText(const struct ROI roi, std::string &out_text, int threshold);
 
     private:
 

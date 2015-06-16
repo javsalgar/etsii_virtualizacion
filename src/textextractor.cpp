@@ -15,7 +15,7 @@ TextExtractor::TextExtractor(const cv::Mat &image) : image_(image)
 
 }
 
-bool TextExtractor::getText(const ROI roi, std::string& out_text)
+bool TextExtractor::getText(const ROI roi, std::string& out_text, int threshold)
 {
     if (init_success_) {
         cv::Rect rect_roi(roi.x, roi.y, roi.width, roi.height);
@@ -23,9 +23,11 @@ bool TextExtractor::getText(const ROI roi, std::string& out_text)
 
         cv::Mat gray;
         cv::cvtColor(region_image, gray, CV_BGR2GRAY);
+        cv::Mat binary;
+        cv::threshold(gray, binary, threshold, 255, 0);
 
         api_->SetPageSegMode(tesseract::PSM_SINGLE_BLOCK);
-        api_->SetImage((uchar*)gray.data, gray.cols, gray.rows, 1, gray.cols);
+        api_->SetImage((uchar*)binary.data, binary.cols, binary.rows, 1, binary.cols);
 
         char* res_text = api_->GetUTF8Text();
 
