@@ -11,8 +11,8 @@ using namespace std;
 
 int main()
 {
-//    std::shared_ptr<cv::VideoCapture> ptr(new cv::VideoCapture("/home/javsalgar/salidausuario1 06_15_2015_05_38_02.avi"));
-    std::shared_ptr<cv::VideoCapture> ptr(new cv::VideoCapture("/home/javsalgar/Documents/Dropbox/ETSII/Doctorado/Proy cloud vitualización etsii/Videos Test/AA144pText.mpg"));
+    std::shared_ptr<cv::VideoCapture> ptr(new cv::VideoCapture("/home/javsalgar/salidausuario10 06_22_2015_01_09_02.avi"));
+    //std::shared_ptr<cv::VideoCapture> ptr(new cv::VideoCapture("/home/javsalgar/Documents/Dropbox/ETSII/Doctorado/Proy cloud vitualización etsii/Videos Test/AA144pText.mpg"));
 
     video_analyzer::FrameExtractor f(ptr);
 
@@ -20,15 +20,14 @@ int main()
 
     struct video_analyzer::FPSInfo fps_res;
 
-    cv::namedWindow("test");
-    cv::imshow("test", f.extractFrame(60, etsii::test_5_roi_3));
+//    cv::namedWindow("test");
+//    cv::imshow("test", f.extractFrame(etsii::test_5_begin, etsii::test_5_roi_3));
+//    cv::waitKey(0);
 
-    cv::waitKey(0);
 
-
-    //v_measure.measureFPS(1000,
-    //                     1100,
-    //                     fps_res, 25, etsii::test_5_roi_2, 180);
+    v_measure.measureFPS(etsii::test_5_begin + 5000,
+                         etsii::test_5_end,
+                         fps_res, 25, etsii::test_5_roi_3, 200);
 
 
     //std::cout << fps_res << std::endl;
@@ -39,7 +38,7 @@ int main()
 
 //    std::cout << "results:" << std::endl << res << std::endl;
 
-    video_analyzer::TextExtractor t_ext(f.extractFrame(60));
+    video_analyzer::TextExtractor t_ext(f.extractFrame(etsii::test_5_begin));
 
     std::string text_res;
 

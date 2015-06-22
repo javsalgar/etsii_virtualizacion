@@ -19,13 +19,13 @@ const int test_4_frame = 48227;
 const int test_4_clicks = 1000;
 const struct video_analyzer::ROI test_4_roi(2, 242, 84, 16);
 
-const int test_5_begin = 48227;
-const int test_5_end = 48227;
+const int test_5_begin = 55227;
+const int test_5_end = 66244;
 const struct video_analyzer::ROI test_5_roi(500, 548, 368, 48);
 
 
 const struct video_analyzer::ROI test_5_roi_2(49, 119, 73, 17);
-const struct video_analyzer::ROI test_5_roi_3(10, 76, 151, 52);
+const struct video_analyzer::ROI test_5_roi_3(146, 300, 200, 50);
 
 }
 

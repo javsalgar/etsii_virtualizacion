@@ -5,13 +5,15 @@
 #include "roi.h"
 #include <tesseract/baseapi.h>
 #include <leptonica/allheaders.h>
-
+#include <memory>
 
 namespace video_analyzer {
 
     class TextExtractor
     {
     public:
+
+        TextExtractor(std::shared_ptr<tesseract::TessBaseAPI> api, const cv::Mat &image);
 
         /**
          * @brief TextExtractor
@@ -32,7 +34,7 @@ namespace video_analyzer {
          * @brief image_
          */
         cv::Mat image_;
-        tesseract::TessBaseAPI *api_;
+        std::shared_ptr<tesseract::TessBaseAPI> api_;
         bool init_success_;
     };
 }

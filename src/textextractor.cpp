@@ -3,9 +3,7 @@
 using namespace video_analyzer;
 
 
-TextExtractor::TextExtractor(const cv::Mat &image) : image_(image)
-{
-    api_ = new tesseract::TessBaseAPI();
+TextExtractor::TextExtractor(std::shared_ptr<tesseract::TessBaseAPI> api, const cv::Mat &image): image_(image), api_(api) {
 
     if (api_->Init(NULL, "eng")) {
         init_success_ = false;
@@ -13,6 +11,10 @@ TextExtractor::TextExtractor(const cv::Mat &image) : image_(image)
         init_success_ = true;
     }
 
+}
+
+TextExtractor::TextExtractor(const cv::Mat &image) : TextExtractor(std::make_shared<tesseract::TessBaseAPI>(), image)
+{
 }
 
 bool TextExtractor::getText(const ROI roi, std::string& out_text, int threshold)

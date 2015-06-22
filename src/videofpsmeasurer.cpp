@@ -39,21 +39,40 @@ bool VideoFPSMeasurer::measureFPS(int begin_frame, int end_frame, FPSInfo &fps_r
         TextExtractor t_ext(image);
 
         t_ext.getText(roi, fps_text, threshold);
+        std::string orig = fps_text;
+
+        std::replace(fps_text.begin(), fps_text.end(), 'O', '0');
+        std::replace(fps_text.begin(), fps_text.end(), 'e', '0');
+        std::replace(fps_text.begin(), fps_text.end(), 'E', '3');
+        std::replace(fps_text.begin(), fps_text.end(), 'T', '7');
+        std::replace(fps_text.begin(), fps_text.end(), 'G', '0');
+        std::replace(fps_text.begin(), fps_text.end(), ')', ' ');
+        std::replace(fps_text.begin(), fps_text.end(), ':', '1');
+        fps_text[4] = ' ';
 
         std::stringstream i_str(fps_text);
         i_str >> video_frame_number;
 
-        if (first) {
-            first_frame = video_frame_number;
-            first = false;
+        //std::cout << video_frame_number << std::endl;
+
+        if (!first && video_frame_number < previous_video_frame_number) {
+            std::cerr << "ERROR!! " << "Frame : " << current_frame_number <<   ", Prev: " << previous_video_frame_number <<
+                         " " <<  orig << " " << fps_text << " : " << video_frame_number << std::endl;
+
         } else {
-            int aux = video_frame_number - previous_video_frame_number;
-            if (aux > 1) {
-                missed_frames += aux;
+
+            if (first) {
+                first_frame = video_frame_number;
+                first = false;
+            } else {
+                int aux = video_frame_number - previous_video_frame_number;
+                if (aux > 1) {
+                    missed_frames += aux;
+                }
             }
+            previous_video_frame_number = video_frame_number;
         }
 
-        previous_video_frame_number = video_frame_number;
         current_frame_number++;
     }
 
