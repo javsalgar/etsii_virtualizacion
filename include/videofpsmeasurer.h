@@ -15,6 +15,7 @@ namespace video_analyzer {
         VideoFPSMeasurer(std::shared_ptr<cv::VideoCapture> vc);
 
         bool measureFPS(int begin_frame, int end_frame, FPSInfo &fps_res, int fps, const struct ROI& roi, int threshold);
+        void fixText(std::string& fps_text);
     private:
         std::shared_ptr<cv::VideoCapture> vc_;
     };

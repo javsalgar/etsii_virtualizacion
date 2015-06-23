@@ -1,4 +1,7 @@
 #include "frameextractor.h"
+#include <iostream>
+#include <iomanip>
+#include "video_utils.h"
 
 using namespace video_analyzer;
 
@@ -46,19 +49,29 @@ bool FrameExtractor::extractToFolder(int begin_frame, int end_frame, const std::
     int current_frame_number;
     bool res = true;
 
-    vc_->set(CV_CAP_PROP_POS_FRAMES, (double)begin_frame);
+    int digits = getNumDigits(end_frame);
+
+    //vc_->set(CV_CAP_PROP_POS_FRAMES, (double)begin_frame);
+    seekFrame(vc_, begin_frame);
+
     current_frame_number = vc_->get(CV_CAP_PROP_POS_FRAMES);
 
     while (current_frame_number != end_frame &&
-           vc_->get(CV_CAP_PROP_POS_AVI_RATIO) <= 1) {
+           vc_->get(CV_CAP_PROP_POS_FRAMES) == current_frame_number) {
         cv::Mat image;
         std::stringstream filename;
         *vc_ >> image;
-        filename << path << "frame-" << (current_frame_number) << ".jpg";
+        filename << path << "frame-" << std::setfill('0') << std::setw(digits) <<
+                    (current_frame_number) << ".jpg";
         if (!cv::imwrite(filename.str(), image)) {
             res = false;
         }
         current_frame_number++;
+
+        std::cout << "CURRENT " << current_frame_number << " OPENCV " <<
+                     vc_->get(CV_CAP_PROP_POS_FRAMES) << " RATIO " <<
+                     vc_->get(CV_CAP_PROP_POS_AVI_RATIO) <<
+                     std::endl ;
     }
 
     return res;

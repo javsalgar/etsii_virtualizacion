@@ -4,12 +4,12 @@
 namespace etsii {
 
 const int test_1_begin = 15607;
-const int test_1_end = 33991;
+const int test_1_end   = 27000;
 const struct video_analyzer::ROI test_1_roi(342, 256, 573, 397);
 
-const int test_2_frame = 31000;
+const int test_2_frame = 50000;
 const int test_2_characters = 23499;
-const struct video_analyzer::ROI test_2_roi(64, 490, 780, 25);
+const struct video_analyzer::ROI test_2_roi(7, 289, 161, 41);
 
 const int test_3_begin = 44215;
 const int test_3_end = 48127;

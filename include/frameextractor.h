@@ -3,6 +3,8 @@
 #include <memory>
 #include "opencv2/opencv.hpp"
 #include "roi.h"
+#include "video_utils.h"
+
 namespace video_analyzer {
     /**
      * @brief The FrameExtractor class is responsible of extracting frames from a video
@@ -50,6 +52,7 @@ namespace video_analyzer {
         cv::Mat extractFrame(int frame);
 
         cv::Mat extractFrame(int frame, const struct ROI& roi);
+
 
     private:
 

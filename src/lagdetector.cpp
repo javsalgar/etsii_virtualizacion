@@ -1,5 +1,6 @@
 #include "lagdetector.h"
 #include <limits>
+#include "video_utils.h"
 
 using namespace video_analyzer;
 
@@ -23,23 +24,23 @@ LagDetector::LagDetector(std::shared_ptr<cv::VideoCapture> vc)
     }
 }
 
-bool LagDetector::getLags(int begin_frame, int end_frame, LagInfo &lag_info)
+bool LagDetector::getLags(int begin_frame, int end_frame, LagInfo &lag_info, int lag_threshold)
 {
     struct ROI roi(0, 0, vc_->get(CV_CAP_PROP_FRAME_WIDTH),
                    vc_->get(CV_CAP_PROP_FRAME_HEIGHT));
-    return getLags(begin_frame, end_frame, roi, lag_info);
+    return getLags(begin_frame, end_frame, roi, lag_info, lag_threshold);
 }
 
-bool LagDetector::getLags(const ROI &roi, LagInfo &lag_info)
+bool LagDetector::getLags(const ROI &roi, LagInfo &lag_info, int lag_threshold)
 {
-    return getLags(0,-1, roi, lag_info);
+    return getLags(0,-1, roi, lag_info, lag_threshold);
 }
 
-bool LagDetector::getLags(LagInfo &lag_info)
+bool LagDetector::getLags(LagInfo &lag_info, int lag_threshold)
 {
     struct ROI roi(0, 0, vc_->get(CV_CAP_PROP_FRAME_WIDTH),
                    vc_->get(CV_CAP_PROP_FRAME_HEIGHT));
-    return getLags(0,-1, roi, lag_info);
+    return getLags(0,-1, roi, lag_info, lag_threshold);
 
 }
 
@@ -60,7 +61,7 @@ bool LagDetector::compareTwoFrames(const cv::Mat &im1, const cv::Mat &im2)
     return equal;
 }
 
-bool LagDetector::getLags(int begin_frame, int end_frame, const ROI &roi, LagInfo &lag_info)
+bool LagDetector::getLags(int begin_frame, int end_frame, const ROI &roi, LagInfo &lag_info, int lag_threshold)
 {
     bool first_difference_found = false;
 
@@ -70,7 +71,10 @@ bool LagDetector::getLags(int begin_frame, int end_frame, const ROI &roi, LagInf
     int total_lags = 0;
     int max_lag_duration = INT32_MIN;
 
-    vc_->set(CV_CAP_PROP_POS_FRAMES, (double)begin_frame);
+    //vc_->set(CV_CAP_PROP_POS_FRAMES, (double)begin_frame);
+
+    seekFrame(vc_, begin_frame);
+
     cv::Rect rect_roi(roi.x, roi.y, roi.width, roi.height);
 
     current_frame_number = vc_->get(CV_CAP_PROP_POS_FRAMES);
@@ -78,7 +82,7 @@ bool LagDetector::getLags(int begin_frame, int end_frame, const ROI &roi, LagInf
     cv::Mat previous_reg;
 
     while (current_frame_number != end_frame &&
-           vc_->get(CV_CAP_PROP_POS_AVI_RATIO) <= 1) {
+           vc_->get(CV_CAP_PROP_POS_FRAMES) == current_frame_number) {
         cv::Mat frame;
         *vc_ >> frame;
         cv::Mat reg = frame(rect_roi);
@@ -95,7 +99,7 @@ bool LagDetector::getLags(int begin_frame, int end_frame, const ROI &roi, LagInf
 
             if (first_difference_found) {
 
-                if (current_lag_duration > 0) {
+                if (current_lag_duration > lag_threshold) {
                     total_lags++;
                     total_lag_duration+= current_lag_duration;
                     if (current_lag_duration >= max_lag_duration) {
@@ -112,6 +116,10 @@ bool LagDetector::getLags(int begin_frame, int end_frame, const ROI &roi, LagInf
 
         current_frame_number = vc_->get(CV_CAP_PROP_POS_FRAMES);
         previous_reg = reg;
+
+        if (current_frame_number >= end_frame) {
+            cv::imwrite("/home/javsalgar/discordia.jpg", frame);
+        }
     }
 
     lag_info.avg_lag = ((double)total_lag_duration/total_lags)/fps_;

@@ -37,7 +37,7 @@ namespace video_analyzer {
          * @param lag_info Lag information to be written
          * @return Whether the processing was done successfully
          */
-        bool getLags(int begin_frame, int end_frame, struct LagInfo& lag_info);
+        bool getLags(int begin_frame, int end_frame, struct LagInfo& lag_info, int lag_threshold);
 
         /**
          * @brief Analyzes lag information in the video
@@ -47,7 +47,7 @@ namespace video_analyzer {
          * @param lag_info Lag information to be written
          * @return Whether the processing was done successfully
          */
-        bool getLags(int begin_frame, int end_frame, const struct ROI& roi, struct LagInfo& lag_info);
+        bool getLags(int begin_frame, int end_frame, const struct ROI& roi, struct LagInfo& lag_info, int lag_threshold);
 
         /**
          * @brief Analyzes lag information in the video
@@ -55,14 +55,14 @@ namespace video_analyzer {
          * @param lag_info Lag information to be written
          * @return Whether the processing was done successfully
          */
-        bool getLags(const struct ROI& roi, struct LagInfo& lag_info);
+        bool getLags(const struct ROI& roi, struct LagInfo& lag_info, int lag_threshold);
 
         /**
          * @brief Analyzes lag information in the video
          * @param lag_info Lag information to be written
          * @return Whether the processing was done successfully
          */
-        bool getLags(struct LagInfo& lag_info);
+        bool getLags(struct LagInfo& lag_info, int lag_threshold);
 
         /**
          * @brief compareTwoFrames checks if two frames are equal

@@ -13,13 +13,13 @@ namespace video_analyzer {
     {
     public:
 
-        TextExtractor(std::shared_ptr<tesseract::TessBaseAPI> api, const cv::Mat &image);
+        explicit TextExtractor(std::shared_ptr<tesseract::TessBaseAPI> api, const cv::Mat &image);
 
         /**
          * @brief TextExtractor
          * @param image
          */
-        TextExtractor(const cv::Mat& image);
+        explicit TextExtractor(const cv::Mat& image);
 
         /**
          * @brief getText

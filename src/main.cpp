@@ -11,47 +11,14 @@ using namespace std;
 
 int main()
 {
-    std::shared_ptr<cv::VideoCapture> ptr(new cv::VideoCapture("/home/javsalgar/salidausuario10 06_22_2015_01_09_02.avi"));
-    //std::shared_ptr<cv::VideoCapture> ptr(new cv::VideoCapture("/home/javsalgar/Documents/Dropbox/ETSII/Doctorado/Proy cloud vitualización etsii/Videos Test/AA144pText.mpg"));
+    std::shared_ptr<cv::VideoCapture> ptr(new cv::VideoCapture("/home/javsalgar/test.avi"));
 
-    video_analyzer::FrameExtractor f(ptr);
+    video_analyzer::FrameExtractor f_ext(ptr);
 
-    video_analyzer::VideoFPSMeasurer v_measure(ptr);
+    f_ext.extractToFolder(300, 800, "/home/javsalgar/Frames/");
+    f_ext.extractToFolder(300, 800, "/home/javsalgar/Frames/");
 
-    struct video_analyzer::FPSInfo fps_res;
-
-//    cv::namedWindow("test");
-//    cv::imshow("test", f.extractFrame(etsii::test_5_begin, etsii::test_5_roi_3));
-//    cv::waitKey(0);
-
-
-    v_measure.measureFPS(etsii::test_5_begin + 5000,
-                         etsii::test_5_end,
-                         fps_res, 25, etsii::test_5_roi_3, 200);
-
-
-    //std::cout << fps_res << std::endl;
-
-//    l.getLags(etsii::test_1_init, etsii::test_1_end,
-//              etsii::test_1_roi, res);
-
-
-//    std::cout << "results:" << std::endl << res << std::endl;
-
-    video_analyzer::TextExtractor t_ext(f.extractFrame(etsii::test_5_begin));
-
-    std::string text_res;
-
-
-    if (t_ext.getText(etsii::test_5_roi_3, text_res, 200))
-    {
-        std::replace(text_res.begin(), text_res.end(), 'O', '0');
-        int characters;
-        std::cout << "\"" << text_res << "\"" << std::endl;
-        std::stringstream istr(text_res);
-        istr >> characters;
-        std::cout << characters << " clickos" << std::endl;
-    }
+    std::cout << "Frame numbers: " << ptr->get(CV_CAP_PROP_FRAME_COUNT) << std::endl;
 
     return 0;
 }
