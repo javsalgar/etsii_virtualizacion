@@ -42,7 +42,6 @@ bool VideoFPSMeasurer::measureFPS(int begin_frame, int end_frame, FPSInfo &fps_r
     bool res = true;
     bool first = true;
 
-//    vc_->set(CV_CAP_PROP_POS_FRAMES, (double)begin_frame);
     seekFrame(vc_, begin_frame);
     current_frame_number = vc_->get(CV_CAP_PROP_POS_FRAMES);
 

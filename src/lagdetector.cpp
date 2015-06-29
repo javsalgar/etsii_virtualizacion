@@ -44,22 +44,6 @@ bool LagDetector::getLags(LagInfo &lag_info, int lag_threshold)
 
 }
 
-bool LagDetector::compareTwoFrames(const cv::Mat &im1, const cv::Mat &im2)
-{
-    bool equal = true;
-
-    for (int i = 0; i < im1.rows; i ++) {
-       for (int j = 0; j < im1.cols; j ++) {
-           for (int k = 0; k < im1.elemSize(); k ++) {
-            if (im1.data[im1.step * i + j*im1.elemSize() + k] != im2.data[im2.step * i + j*im1.elemSize() + k]) {
-                equal = false;
-            }
-           }
-       }
-    }
-
-    return equal;
-}
 
 bool LagDetector::getLags(int begin_frame, int end_frame, const ROI &roi, LagInfo &lag_info, int lag_threshold)
 {
@@ -70,8 +54,6 @@ bool LagDetector::getLags(int begin_frame, int end_frame, const ROI &roi, LagInf
     int total_lag_duration = 0;
     int total_lags = 0;
     int max_lag_duration = INT32_MIN;
-
-    //vc_->set(CV_CAP_PROP_POS_FRAMES, (double)begin_frame);
 
     seekFrame(vc_, begin_frame);
 

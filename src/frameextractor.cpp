@@ -28,7 +28,7 @@ bool FrameExtractor::extractToFolder(const std::string &path)
 
 cv::Mat FrameExtractor::extractFrame(int frame)
 {
-    vc_->set(CV_CAP_PROP_POS_FRAMES, (double)frame);
+    seekFrame(vc_, frame);
     cv::Mat res;
 
     *vc_ >> res;
@@ -51,7 +51,6 @@ bool FrameExtractor::extractToFolder(int begin_frame, int end_frame, const std::
 
     int digits = getNumDigits(end_frame);
 
-    //vc_->set(CV_CAP_PROP_POS_FRAMES, (double)begin_frame);
     seekFrame(vc_, begin_frame);
 
     current_frame_number = vc_->get(CV_CAP_PROP_POS_FRAMES);
@@ -68,10 +67,6 @@ bool FrameExtractor::extractToFolder(int begin_frame, int end_frame, const std::
         }
         current_frame_number++;
 
-        std::cout << "CURRENT " << current_frame_number << " OPENCV " <<
-                     vc_->get(CV_CAP_PROP_POS_FRAMES) << " RATIO " <<
-                     vc_->get(CV_CAP_PROP_POS_AVI_RATIO) <<
-                     std::endl ;
     }
 
     return res;

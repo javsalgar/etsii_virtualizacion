@@ -3,29 +3,32 @@
 
 namespace etsii {
 
-const int test_1_begin = 15607;
-const int test_1_end   = 27000;
-const struct video_analyzer::ROI test_1_roi(342, 256, 573, 397);
+    const struct video_analyzer::ROI test_1_frame_roi(403,260, 40, 15);
 
-const int test_2_frame = 50000;
-const int test_2_characters = 23499;
-const struct video_analyzer::ROI test_2_roi(7, 289, 161, 41);
+    const int test_1_begin = 9985;
+    const int test_1_end   = 21500;
+    const struct video_analyzer::ROI test_1_roi(342, 256, 573, 397);
 
-const int test_3_begin = 44215;
-const int test_3_end = 48127;
-const struct video_analyzer::ROI test_3_roi(7, 242, 85, 34);
+    const struct video_analyzer::ROI test_2_frame_roi(1024,381, 13, 20);
+    const int test_2_frame = 25000;
+    const int test_2_characters = 23499;
+    const struct video_analyzer::ROI test_2_roi(7, 289, 161, 41);
 
-const int test_4_frame = 48227;
-const int test_4_clicks = 1000;
-const struct video_analyzer::ROI test_4_roi(2, 242, 84, 16);
+    const int test_3_begin = 44215;
+    const int test_3_end = 48127;
+    const struct video_analyzer::ROI test_3_roi(7, 242, 85, 34);
 
-const int test_5_begin = 55227;
-const int test_5_end = 66244;
-const struct video_analyzer::ROI test_5_roi(500, 548, 368, 48);
+    const int test_4_frame = 48227;
+    const int test_4_clicks = 1000;
+    const struct video_analyzer::ROI test_4_roi(2, 242, 84, 16);
+
+    const int test_5_begin = 55227;
+    const int test_5_end = 66244;
+    const struct video_analyzer::ROI test_5_roi(500, 548, 368, 48);
 
 
-const struct video_analyzer::ROI test_5_roi_2(49, 119, 73, 17);
-const struct video_analyzer::ROI test_5_roi_3(146, 300, 200, 50);
+    const struct video_analyzer::ROI test_5_roi_2(49, 119, 73, 17);
+    const struct video_analyzer::ROI test_5_roi_3(146, 300, 200, 50);
 
 }
 
