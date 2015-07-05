@@ -8,20 +8,16 @@ LagDetector::~LagDetector()
 {
 }
 
-LagDetector::LagDetector(const std::string &filename): LagDetector(std::make_shared<cv::VideoCapture>(filename))
+LagDetector::LagDetector(const std::string &filename, double fps): LagDetector(std::make_shared<cv::VideoCapture>(filename), fps)
 {
     if (vc_ == NULL) {
         throw std::invalid_argument("Error opening video file");
     }
 }
 
-LagDetector::LagDetector(std::shared_ptr<cv::VideoCapture> vc)
+LagDetector::LagDetector(std::shared_ptr<cv::VideoCapture> vc, double fps): fps_(fps)
 {
     vc_ = vc;
-
-    if (vc_ != NULL) {
-        fps_ = vc_->get(CV_CAP_PROP_FPS);
-    }
 }
 
 bool LagDetector::getLags(int begin_frame, int end_frame, LagInfo &lag_info, int lag_threshold)

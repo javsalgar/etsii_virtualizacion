@@ -6,6 +6,7 @@
 namespace etsii {
 
     const struct video_analyzer::ROI test_1_frame_roi(403,260, 40, 15);
+    const struct video_analyzer::ROI test_1_end_frame_roi(352, 598, 88, 15);
 
     const int test_1_begin = 9985;
     const int test_1_end   = 21500;

@@ -7,7 +7,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 find_package(OpenCV REQUIRED)
 find_package(Tesseract)
 
-set(CMAKE_CXX_FLAGS "-std=c++0x")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
 set(CMAKE_BUILD_TYPE Debug)
 
 # Video Utils Library
@@ -57,6 +57,23 @@ set(SOURCES_FPSMEASURER
 
 add_library(videofpsmeasurer SHARED ${SOURCES_FPSMEASURER})
 
+# PNG Files
+
+file(GLOB PNG_FILES "frames/*.png")
+file(COPY ${PNG_FILES} DESTINATION ${CMAKE_BINARY_DIR})
+
+foreach(PNG_FILE_LOOP ${PNG_FILES})
+    string(REPLACE "/" ";" STR_LIST ${PNG_FILE_LOOP})
+    list(LENGTH STR_LIST len)
+    list(REVERSE STR_LIST)
+    list(GET STR_LIST 0 PNG_FILE_STRIPPED)
+    string(REPLACE ".png" ".o" PNG_OUT_FILE ${PNG_FILE_STRIPPED})
+    list(APPEND PNG_OUT_LIST ${PNG_OUT_FILE})
+    list(APPEND PNG_COPIED_LIST ${PNG_FILE_STRIPPED})
+    add_custom_command(OUTPUT ${PNG_OUT_FILE}
+                       COMMAND objcopy --input-format=binary --output-format=binary --output=elf64-x86-64 --binary-architecture i386:x86-64 ${PNG_FILE_STRIPPED} ${PNG_OUT_FILE})
+endforeach(PNG_FILE_LOOP)
+
 # Executable file
 
 set(SOURCES_ETSII_TEST
@@ -67,6 +84,17 @@ set(SOURCES_ETSII_TEST
     include/laginfo.h
     include/video_utils.h)
 
-add_executable(etsii_test ${SOURCES_ETSII_TEST})
 
+add_executable(etsii_test ${SOURCES_ETSII_TEST} ${PNG_OUT_LIST})
 target_link_libraries(etsii_test videoutils lagdetector frameextractor textextractor videofpsmeasurer ${OpenCV_LIBS} tesseract)
+
+add_custom_command(TARGET etsii_test POST_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E copy_directory
+                       ${CMAKE_CURRENT_SOURCE_DIR}/frames/
+                       $<TARGET_FILE_DIR:etsii_test>
+                   )
+
+# Clean files
+
+SET_DIRECTORY_PROPERTIES(PROPERTIES  ADDITIONAL_MAKE_CLEAN_FILES "${PNG_OUT_LIST}")
+SET_DIRECTORY_PROPERTIES(PROPERTIES  ADDITIONAL_MAKE_CLEAN_FILES "${PNG_COPIED_LIST}")

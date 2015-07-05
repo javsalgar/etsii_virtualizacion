@@ -22,13 +22,13 @@ namespace video_analyzer {
          * @param filename
          */
 
-        LagDetector(const std::string& filename);
+        LagDetector(const std::string& filename, double fps);
 
         /**
          * @brief LagDetector
          * @param vc pointer to a cv::VideoCapture object
          */
-        LagDetector(std::shared_ptr<cv::VideoCapture> vc);
+        LagDetector(std::shared_ptr<cv::VideoCapture> vc, double fps);
 
         /**
          * @brief Analyzes lag information in the video
